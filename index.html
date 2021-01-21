@@ -1,0 +1,299 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RPS</title>
+	<script src="https://kit.fontawesome.com/7e13ac554b.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="main.js">
+
+	<style>
+		#rps {
+			display: block;
+			border-radius: 4px;
+			background-color: black;
+			font-size: 60px;
+			font-weight: bold;
+			color: white;
+			font-family: monospace;
+			font-style: normal;
+
+			margin-top: 0px;
+			margin-bottom: 0px;
+
+			height: 70px;
+		}
+
+		p {
+			text-align: center;
+			font-size: 23px;
+			color: black;
+			font-family: inherit;
+			font-style: cursive;
+		}
+
+		#info {
+			color:red;
+		}
+
+		.container1 {
+
+			margin-top: 2px;
+			display: block;
+			border-radius: 15px;
+			border-style: solid;
+			border-color: black;
+			background-color: white;	
+			border-width: 2px;
+
+			height:210px;
+		}
+
+		.container2 {
+			margin-left: 34%;
+			margin-top: 20px;
+			align-content: center;
+			display: block;
+		}
+
+		#playerScore {
+			margin-left: 33%;
+			background-color: grey;
+			color: white;
+			height: 25px;
+			width:400px;
+		}
+
+		#computerScore {
+			margin-left: 33%;
+			display: block;
+			height: 25px;
+			width:400px;
+
+			color: white;
+
+			background-color: grey;
+			margin-bottom: 10px;
+		}
+		#selection {
+			text-align: center;
+			font-size: 30px;
+			font-weight: bold;
+			color: blue;
+			font-family: Arial, Helvetica, sans-serif;
+			font-style: cursive;
+
+			margin-top: 10px;
+		}
+		#buttons {
+			display: block;
+			text-align: center;
+		}
+		#rock, #paper, #scissor {
+			align-self: center;
+			height:40px;
+			width:100px;
+			
+			color: black;
+			font-size: 20px;
+			font-weight: bold;
+
+			border-color: black;
+			margin-right: 45px;
+			margin-top: 5px;
+			margin-bottom: 30px;
+		}
+
+		#matchResult {
+			align-content: center;
+			text-align: center;
+			margin-top: 20px;
+			font-weight: bold;
+			color: black;
+			font-size: 30px;
+			width:400px;
+			height:25px;
+		}
+		#restart {
+			cursor: pointer;
+			display: block;
+
+			border-radius: 4px;
+			background-color: black;
+
+			font-size: 30px;
+			font-weight: bold;
+			color: lime;
+			font-family: monospace;
+			font-style: normal;
+
+			margin-top: 10px;
+			margin-bottom: 0px;
+
+			height: 40px;
+
+		}
+	</style>
+
+</head>
+<body>	
+	<div class="container">
+		<header class ="header">
+			<center><h1 id ="rps">ROCK PAPER SCISSORS</h1></center>
+		</header>
+	</div>				
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	
+	<p1 class="container1">
+
+		<p id ="info">
+			<b>
+				This is a five-round game and player with maximum score wins the game.<br>After every five-round game refresh the page.
+			<b>
+		</p>
+
+		<p><b>Choose one of the following: </b></p>
+        
+        <div id="buttons">
+			<button id="rock" name="1" value="1">Rock</button>
+			<button id="paper" name="2" value="2">Paper</button>
+			<button id="scissor" name="3" value="3">Scissor</button>
+		</div>
+	</p1>	
+
+<p1 class ="container6">
+	<p id="playerSelected">Player Choice: </p>
+ 	<p id="computerSelected">Computer Choice: </p>
+
+	<p id="playerScore">Player Score: 0</p>
+	<p id ="computerScore">Computer Score: 0</p>
+	
+</p1>	
+
+<p2 class = "container2">
+	<p id ="matchResult">Match Result: </p>
+</p2>
+
+<div id="buttons">
+	<button1 id="restart" value="4">Restart Game</button1>
+</div>
+
+<script>
+
+	let selected_button = 0;
+	let round =0;
+	let computer_score = 0;
+	let player_score = 0;
+
+	$("button").click(function() {
+    	selected_button = $(this).val();
+
+    	let p = selected_button;
+    	let c = Math.random() * 3;
+
+   		let computer_choice = null;
+   		let player_choice = null;
+
+   		if(p==1)
+   			player_choice=`Rock`;
+   		else if(p==2)
+   			player_choice=`Paper`;
+   		else
+   			player_choice=`Scissor`;
+
+	    
+	    if(c <=1){
+    		computer_choice = `Rock`;
+    		c = 1;
+	    }
+    	else if(c >= 2){
+    		computer_choice=`Paper`;
+    		c=2;
+    	}
+    	else{
+    		computer_choice = 'Scissor';
+    		c=3;
+    	}
+
+
+    	var temp = play(p,c);
+
+   	 	if(temp == 'P'){
+    		player_score += 1;
+   		 }
+ 		else if(temp == 'C') {
+  	  		computer_score += 1;
+ 		}
+ 		 
+
+    	document.getElementById("playerSelected").innerHTML = `Player choice: ${player_choice}`;
+    	document.getElementById("computerSelected").innerHTML = `Computer choice: ${computer_choice}`;
+
+    	document.getElementById("playerScore").innerHTML = `Player Score: ${player_score}`;
+    	document.getElementById("computerScore").innerHTML = `Computer Score: ${computer_score}`;
+
+
+    	if(computer_score + player_score == 5){
+  
+  
+    		if(player_score < computer_score)
+    			document.getElementById("matchResult").innerHTML = `Computer Won the match`;
+    		else
+    			document.getElementById("matchResult").innerHTML = `Player Won the match`;
+    	}		
+    	
+    	
+});
+
+      $("button1").click(function() {
+    	selected_button = $(this).val();
+
+    	player_score=0;
+    		computer_score=0;	
+    		document.getElementById("playerSelected").innerHTML = `Player choice: `;
+ 		  	document.getElementById("computerSelected").innerHTML = `Computer choice: `;
+
+    		document.getElementById("playerScore").innerHTML = `Player Score: 0`;
+    		document.getElementById("computerScore").innerHTML = `Computer Score: 0`;
+
+    		document.getElementById("matchResult").innerHTML = `Match Result: `;
+
+    });
+
+
+</script>
+
+<script>
+	function play(p, c) {
+
+			if(p == c)
+				return '0';
+
+			if(p == 1) {
+				if(c == 2)
+					return 'C';
+				else
+					return 'P';
+			}
+
+			else if(p == 2) {
+				if(c == 1)
+					return 'P';
+				else
+					return 'C';
+			}
+
+			else if(p == 3) {
+				if(c == 1)
+					return 'C';
+				else
+					return 'P';
+			}
+
+		}
+
+</script>
+
+
+</body>
+</html>
